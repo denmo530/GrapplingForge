@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { siteConfig } from "@/config/site";
+import SupabaseProvider from "@/components/providers/supabase-provider";
+import UserProvider from "@/components/providers/userProvider";
+import ModalProvider from "@/components/providers/ModalProvider";
+import ToasterProvider from "@/components/providers/ToasterProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +38,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
-        {children}
+        <ToasterProvider />
+        <SupabaseProvider>
+          <UserProvider>
+            <ModalProvider />
+            {children}
+          </UserProvider>
+        </SupabaseProvider>
         {/* </ThemeProvider> */}
       </body>
     </html>
