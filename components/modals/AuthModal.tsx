@@ -38,6 +38,7 @@ export const AuthModal = () => {
         providers={["google", "facebook", "apple"]}
         socialLayout="horizontal"
         magicLink
+        redirectTo="http://localhost:3000/dashboard"
         appearance={{
           theme: ThemeSupa,
           variables: {

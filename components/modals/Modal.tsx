@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogOverlay } from "@radix-ui/react-dialog";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface ModalProps {
   isOpen: boolean;
