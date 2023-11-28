@@ -1,5 +1,12 @@
 import Stripe from "stripe";
 
+export interface Technique {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+}
+
 export interface UserDetails {
   id: string;
   first_name: string;

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { siteConfig } from "@/config/site";
 import SupabaseProvider from "@/components/providers/supabase-provider";
 import UserProvider from "@/components/providers/userProvider";
@@ -32,12 +31,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        > */}
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
@@ -45,7 +38,6 @@ export default function RootLayout({
             {children}
           </UserProvider>
         </SupabaseProvider>
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );

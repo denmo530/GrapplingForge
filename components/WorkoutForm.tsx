@@ -1,12 +1,11 @@
-import React from "react";
-import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, ChevronsUpDown, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -36,24 +35,28 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { cn } from "@/lib/utils";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { da } from "date-fns/locale";
+import { Technique } from "@/types";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 const formSchema = z.object({
-  duration: z.number().min(0),
+  duration: z.coerce.number().min(0),
   date: z.date({
     required_error: "A date for the workout is required.",
   }),
   intensity: z.string(),
-  martialArtsTechniques: z.string(),
-  strengthExercises: z.string(),
-  success: z.boolean(),
-  performance: z.number().min(0),
-  sets: z.number().min(0),
-  reps: z.number().min(0),
-  weight: z.number().min(0),
+  martialArtsTechniques: z.string().optional(),
+  performance: z.coerce.number().min(0),
+  success: z.boolean().default(true),
+  strengthExercises: z.string().optional(),
+  sets: z.number().min(0).optional(),
+  reps: z.number().min(0).optional(),
+  weight: z.number().min(0).optional(),
 });
 
 const intensities = [
@@ -84,26 +87,49 @@ const intensities = [
   },
 ];
 
-const techniques = [
-  { label: "Armbar", value: "armbar" },
-  { label: "Triangle Choke", value: "triangle_choke" },
-  { label: "Kimura", value: "kimura" },
-  { label: "Omoplata", value: "omoplata" },
-  { label: "Rear Naked Choke", value: "rear_naked_choke" },
-  { label: "Guillotine Choke", value: "guillotine_choke" },
-  { label: "Americana", value: "americana" },
-  { label: "Sweep from Guard", value: "sweep_guard" },
-  { label: "Mount Escape", value: "mount_escape" },
-  { label: "Side Control Escape", value: "side_control_escape" },
-] as const;
+// const techniques = [
+//   { label: "Armbar", value: "armbar" },
+//   { label: "Triangle Choke", value: "triangle_choke" },
+//   { label: "Kimura", value: "kimura" },
+//   { label: "Omoplata", value: "omoplata" },
+//   { label: "Rear Naked Choke", value: "rear_naked_choke" },
+//   { label: "Guillotine Choke", value: "guillotine_choke" },
+//   { label: "Americana", value: "americana" },
+//   { label: "Sweep from Guard", value: "sweep_guard" },
+//   { label: "Mount Escape", value: "mount_escape" },
+//   { label: "Side Control Escape", value: "side_control_escape" },
+// ] as const;
 
 export const WorkoutForm = () => {
+  const [techniques, setTechniques] = useState<Technique[]>([]);
+
+  useEffect(() => {
+    const fetchTechniques = async () => {
+      const supabase = createClientComponentClient();
+
+      const { data, error } = await supabase
+        .from("techniques")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.log(error);
+      }
+
+      if (data) setTechniques(data);
+    };
+
+    fetchTechniques();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     // add to supabase
+    console.log("form submitted");
+    console.log(values);
   };
 
   return (
@@ -200,88 +226,106 @@ export const WorkoutForm = () => {
             intensity from low to high.
           </FormDescription>
         </div>
-        <div className="flex flex-col justify-center items-center">
-          <Tabs defaultValue="account" className="w-[400px]">
-            <TabsList>
-              <TabsTrigger value="techniques">
-                Martial Arts Techniques
-              </TabsTrigger>
-              <TabsTrigger value="exercises">
-                Strength & Conditioning
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="techniques">
-              <FormField
-                control={form.control}
-                name="martialArtsTechniques"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Techniques</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? techniques.find(
-                                  (technique) => technique.value === field.value
-                                )?.label
-                              : "Select technique"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput placeholder="Search technique..." />
-                          <CommandEmpty>No technique found.</CommandEmpty>
-                          <CommandGroup>
-                            {techniques.map((technique) => (
-                              <CommandItem
-                                value={technique.label}
-                                key={technique.value}
-                                onSelect={() => {
-                                  form.setValue(
-                                    "martialArtsTechniques",
-                                    technique.value
-                                  );
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    technique.value === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {technique.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <Tabs defaultValue="techniques" className="w-[400px]">
+          <TabsList>
+            <TabsTrigger value="techniques">
+              Martial Arts Techniques
+            </TabsTrigger>
+            <TabsTrigger value="exercises">Strength & Conditioning</TabsTrigger>
+          </TabsList>
+          <TabsContent value="techniques">
+            <div>
+              <div className="flex items-center gap-x-4 mb-1">
+                <FormField
+                  control={form.control}
+                  name="martialArtsTechniques"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Techniques</FormLabel>
+                      <Popover modal={true}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[200px] justify-between",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? techniques.find(
+                                    (technique) =>
+                                      technique.name === field.value
+                                  )?.name
+                                : "Select technique"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                          <Command>
+                            <CommandInput placeholder="Search technique..." />
+                            <CommandEmpty>No technique found.</CommandEmpty>
+                            <ScrollArea>
+                              <CommandList>
+                                {techniques.map((technique) => (
+                                  <CommandItem
+                                    value={technique.name}
+                                    key={technique.id}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        "martialArtsTechniques",
+                                        technique.name
+                                      );
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        technique.name === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {technique.name}
+                                  </CommandItem>
+                                ))}
+                              </CommandList>
+                            </ScrollArea>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="performance"
+                  render={({ field }) => (
+                    <FormItem className="mt-5">
+                      <FormControl>
+                        <Input
+                          placeholder="Performance"
+                          type="number"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormDescription>
-                Techniques in submission grappling, BJJ and MMA. Use switch to
-                indicate successfully performed technique or not.
+                Techniques in submission grappling, BJJ and MMA.
               </FormDescription>
-            </TabsContent>
-            <TabsContent value="exercises">
-              Change your password here.
-            </TabsContent>
-          </Tabs>
-        </div>
+            </div>
+          </TabsContent>
+          <TabsContent value="exercises">
+            Change your password here.
+          </TabsContent>
+        </Tabs>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
