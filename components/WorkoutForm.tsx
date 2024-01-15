@@ -40,7 +40,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { da } from "date-fns/locale";
 import { Technique } from "@/types";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
@@ -86,19 +85,6 @@ const intensities = [
     value: 5,
   },
 ];
-
-// const techniques = [
-//   { label: "Armbar", value: "armbar" },
-//   { label: "Triangle Choke", value: "triangle_choke" },
-//   { label: "Kimura", value: "kimura" },
-//   { label: "Omoplata", value: "omoplata" },
-//   { label: "Rear Naked Choke", value: "rear_naked_choke" },
-//   { label: "Guillotine Choke", value: "guillotine_choke" },
-//   { label: "Americana", value: "americana" },
-//   { label: "Sweep from Guard", value: "sweep_guard" },
-//   { label: "Mount Escape", value: "mount_escape" },
-//   { label: "Side Control Escape", value: "side_control_escape" },
-// ] as const;
 
 export const WorkoutForm = () => {
   const [techniques, setTechniques] = useState<Technique[]>([]);

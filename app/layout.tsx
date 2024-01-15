@@ -7,7 +7,9 @@ import UserProvider from "@/components/providers/userProvider";
 import ModalProvider from "@/components/providers/ModalProvider";
 import ToasterProvider from "@/components/providers/ToasterProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -29,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={inter.className}>
+      <body>
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>

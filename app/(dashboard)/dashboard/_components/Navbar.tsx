@@ -5,29 +5,22 @@ import React from "react";
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
 import { Database } from "@/types_db";
-import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { Avatar } from "./Avatar";
 import toast from "react-hot-toast";
 
 export const Navbar = () => {
-  const { onOpen } = useAuthModal();
-  const { user } = useUser();
-  const router = useRouter();
   const supabaseClient = createClientComponentClient<Database>();
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
-    router.refresh();
 
     if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Logged out.");
+      console.error(error);
     }
+
+    toast.success("Logged out.");
   };
 
   return (

@@ -21,7 +21,7 @@ export const AuthModal = () => {
 
   useEffect(() => {
     if (session) {
-      router.refresh();
+      router.push("/dashboard");
       onClose();
     }
   }, [router, onClose, session]);
