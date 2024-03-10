@@ -29,12 +29,12 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
-      <DialogContent className=" border border-neutral-200 md:h-auto md:max-h-[85vh] w-full md:w-[90vw] md:max-w-[450px]  rounded-md p-[25px] focus:outline-none">
+      <DialogContent className=" border border-neutral-200 md:h-auto w-full md:w-[90vw] md:max-w-[450px]  rounded-md p-[25px] focus:outline-none">
         <DialogHeader>
-          <DialogTitle className="text-xl text-center font-semibold mb-4">
+          <DialogTitle className="text-2xl text-left font-semibold mb-4">
             {title}
           </DialogTitle>
-          <DialogDescription className="mb-5 text-sm leading-normal text-center">
+          <DialogDescription className="mb-5 text-sm leading-normal text-left">
             {description}
           </DialogDescription>
         </DialogHeader>

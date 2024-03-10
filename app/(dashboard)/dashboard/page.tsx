@@ -1,17 +1,14 @@
-"use client";
-
 import React from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Overview } from "../overview/Overview";
-import { useSessionContext } from "@supabase/auth-helpers-react";
 import { redirect } from "next/navigation";
+import readUserSession from "@/actions/session";
 
-const DashboardPage = () => {
-  const { session } = useSessionContext();
+export default async function Page() {
+  const { data } = await readUserSession();
 
-  if (!session) {
-    redirect("/");
+  if (!data?.session) {
+    return redirect("/");
   }
 
   return (
@@ -23,12 +20,7 @@ const DashboardPage = () => {
           <TabsTrigger value="Goals">Goals</TabsTrigger>
           <TabsTrigger value="Competitions">Competitions</TabsTrigger>
         </TabsList>
-        <TabsContent value="overview">
-          <Overview />
-        </TabsContent>
       </Tabs>
     </div>
   );
-};
-
-export default DashboardPage;
+}

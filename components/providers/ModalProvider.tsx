@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { AuthModal } from "../modals/AuthModal";
-import { AddWorkoutModal } from "../modals/AddWorkoutModal";
+import { AuthModal } from "../modals/auth/AuthModal";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -17,7 +16,6 @@ const ModalProvider = () => {
   return (
     <>
       <AuthModal />
-      <AddWorkoutModal />
     </>
   );
 };

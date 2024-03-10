@@ -2,13 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
 import { Dumbbell } from "lucide-react";
-import Link from "next/link";
 
 export default function Home() {
   const { onOpen } = useAuthModal();
-  const { user } = useUser();
 
   return (
     <div className="flex items-center justify-center flex-col ">
@@ -29,15 +26,10 @@ export default function Home() {
         levels. From white-belt to black-belt, with the help of data analytics
         and machine learning.
       </div>
-      {user ? (
-        <Button className="mt-6" size="lg">
-          <Link href="/dashboard">Enter the Forge</Link>
-        </Button>
-      ) : (
-        <Button className="mt-6" size="lg" onClick={onOpen}>
-          Join the Forge
-        </Button>
-      )}
+      :
+      <Button className="mt-6" size="lg" onClick={onOpen}>
+        Join the Forge
+      </Button>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 import SupabaseProvider from "@/components/providers/supabase-provider";
 import UserProvider from "@/components/providers/userProvider";
 import ModalProvider from "@/components/providers/ModalProvider";
-import ToasterProvider from "@/components/providers/ToasterProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,11 +33,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
             {children}
+            <Toaster />
           </UserProvider>
         </SupabaseProvider>
       </body>
