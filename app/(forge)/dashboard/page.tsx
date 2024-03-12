@@ -3,6 +3,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 import readUserSession from "@/actions/session";
+import { getTechniqueById, getTechniques } from "../actions/techniques";
 
 export default async function Page() {
   const { data } = await readUserSession();
@@ -10,6 +11,10 @@ export default async function Page() {
   if (!data?.session) {
     return redirect("/");
   }
+
+  // const techniques = await getTechniques();
+
+  // console.log(techniques);
 
   return (
     <div className="flex flex-col items-start justify-center px-16">

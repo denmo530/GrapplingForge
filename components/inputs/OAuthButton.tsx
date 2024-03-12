@@ -1,7 +1,7 @@
 "use client";
 
 import { createSupabaseClient } from "@/lib/supabase/client";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import React from "react";
 import { Provider } from "@supabase/supabase-js";
 

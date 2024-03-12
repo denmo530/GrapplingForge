@@ -1,15 +1,15 @@
 import { cn } from "@/lib/utils";
 import { ChevronsUpDown, Command, Check } from "lucide-react";
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   CommandInput,
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from "./ui/command";
-import { FormControl } from "./ui/form";
-import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+} from "../ui/command";
+import { FormControl } from "../ui/form";
+import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
 interface SelectableListProps {
   form: any;

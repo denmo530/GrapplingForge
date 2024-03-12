@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 
-import { useSessionContext } from "@supabase/auth-helpers-react";
-
-import { Modal } from "../Modal";
+import { Modal } from "../../../../components/modals/Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,8 +8,6 @@ import { LoginForm } from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
 export const AuthModal = () => {
-  const { supabaseClient, session } = useSessionContext();
-  const router = useRouter();
   const { onClose, isOpen } = useAuthModal();
 
   const onChange = (open: boolean) => {
@@ -21,16 +16,9 @@ export const AuthModal = () => {
     }
   };
 
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-      onClose();
-    }
-  }, [router, onClose, session]);
-
   return (
     <Modal
-      title="Welcome to Grappling Forge 🔨"
+      title="Welcome to GrapplingForge 🔨"
       description=""
       isOpen={isOpen}
       onChange={onChange}
@@ -41,7 +29,7 @@ export const AuthModal = () => {
           <TabsTrigger value="signup">Create an Account</TabsTrigger>
         </TabsList>
         <TabsContent value="login">
-          <LoginForm />
+          <LoginForm onClose={onClose} />
         </TabsContent>
         <TabsContent value="signup">
           <RegisterForm />

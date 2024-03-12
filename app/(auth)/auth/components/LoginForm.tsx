@@ -18,9 +18,10 @@ import { Provider } from "@supabase/supabase-js";
 import { signInWithEmailAndPassword } from "@/app/(auth)/auth/actions/auth-server-actions";
 import { toast } from "@/components/ui/use-toast";
 import { redirect } from "next/navigation";
-import OAuthButton from "@/components/OAuthButton";
+import OAuthButton from "@/components/inputs/OAuthButton";
+import { FaGoogle } from "react-icons/fa";
 
-export const LoginForm = () => {
+export const LoginForm = ({ onClose }: { onClose: () => void }) => {
   const [isPending, startTransition] = useTransition();
 
   const LoginSchema = z.object({
@@ -66,6 +67,8 @@ export const LoginForm = () => {
             </pre>
           ),
         });
+
+        onClose();
 
         redirect("/dashboard");
       }
@@ -137,7 +140,7 @@ export const LoginForm = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full">
-          <OAuthButton provider="google" icon={<FacebookIcon />} />
+          <OAuthButton provider="google" icon={<FaGoogle size={17} />} />
           <OAuthButton provider="github" icon={<GithubIcon />} />
           <OAuthButton provider="facebook" icon={<FacebookIcon />} />
         </div>

@@ -1,11 +1,13 @@
 import { Footer } from "@/app/(marketing)/_components/Footer";
-import { Navbar } from "./_components/Navbar";
+import { Header } from "./dashboard/_components/Header";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-screen w-screen bg-slate-100 overflow-hidden">
-      <Navbar />
-      <main className="pt-12 pb-5 ">{children}</main>
+    <div>
+      <Header />
+      <main className="py-12 min-h-screen flex flex-col items-center relative">
+        {children}
+      </main>
       <Footer />
     </div>
   );

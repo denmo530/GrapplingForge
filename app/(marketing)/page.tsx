@@ -26,7 +26,6 @@ export default function Home() {
         levels. From white-belt to black-belt, with the help of data analytics
         and machine learning.
       </div>
-      :
       <Button className="mt-6" size="lg" onClick={onOpen}>
         Join the Forge
       </Button>

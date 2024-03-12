@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
-import SupabaseProvider from "@/components/providers/supabase-provider";
 import UserProvider from "@/components/providers/userProvider";
 import ModalProvider from "@/components/providers/ModalProvider";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({
+const openSans = Open_Sans({
   subsets: ["latin"],
 });
 
@@ -31,15 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={openSans.className}>
       <body>
-        <SupabaseProvider>
-          <UserProvider>
-            <ModalProvider />
-            {children}
-            <Toaster />
-          </UserProvider>
-        </SupabaseProvider>
+        <ModalProvider />
+        {children}
+        <Toaster />
       </body>
     </html>
   );
