@@ -18,7 +18,6 @@ import { useState, useCallback, useEffect, use } from "react";
 import { UserMetadata, type User } from "@supabase/supabase-js";
 import ProfileAvatar from "./ProfileAvatar";
 import { RotateCw } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const FormSchema = z.object({
   fullName: z.string().min(1, { message: "Name is required." }),
@@ -185,11 +184,11 @@ const ProfileForm = ({ user }: { user: User | null }) => {
           <Button
             type="submit"
             variant={"default"}
-            className="w-full flex gap-2 bg-malibu-500"
+            className="w-full flex gap-2 bg-malibu-500 hover:bg-malibu-500/90"
             disabled={loading}
             onClick={() => updateProfile(updatedUserData)}
           >
-            Update Profile
+            Update
             {loading && <RotateCw color="white" className="animate-spin" />}
           </Button>
         </form>

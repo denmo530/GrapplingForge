@@ -3,7 +3,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 import readUserSession from "@/actions/session";
-import { getTechniqueById, getTechniques } from "../actions/techniques";
+import { getTechniqueById, getTechniques } from "../_actions/techniques";
 
 export default async function Page() {
   const { data } = await readUserSession();

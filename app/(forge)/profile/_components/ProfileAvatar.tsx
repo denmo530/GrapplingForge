@@ -4,6 +4,7 @@ import { createSupabaseClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 const ProfileAvatar = ({
   uid,
@@ -17,6 +18,7 @@ const ProfileAvatar = ({
   onUpload: (url: string) => void;
 }) => {
   const supabase = createSupabaseClient();
+  const router = useRouter();
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(url);
   const [uploading, setUploading] = useState(false);
@@ -62,6 +64,9 @@ const ProfileAvatar = ({
       const fileExt = file.name.split(".").pop();
       const filePath = `${uid}-${Math.random()}.${fileExt}`;
 
+      const newURL = URL.createObjectURL(file);
+      setAvatarUrl(newURL);
+
       const { error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(filePath, file);
@@ -71,9 +76,12 @@ const ProfileAvatar = ({
       }
 
       onUpload(filePath);
+
+      // Delay before refreshing the UI
+      router.refresh();
     } catch (error) {
       alert("Error uploading avatar!");
-      console.error(error);
+      setAvatarUrl(url);
     } finally {
       setUploading(false);
     }
@@ -81,7 +89,7 @@ const ProfileAvatar = ({
 
   return (
     <div className="flex flex-col gap-2">
-      {loading ? (
+      {loading || uploading ? (
         <>
           <Skeleton className="w-[200px] h-[200px] " />
         </>

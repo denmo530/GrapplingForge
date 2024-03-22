@@ -15,7 +15,7 @@ export const Logo = () => {
         <Image src="/logo.png" alt="Logo" height={30} width={30} />
         <p
           className={cn(
-            "text-lg text-neutral-700 pb-1 font-semibold",
+            "text-lg text-primary transition-colors hover:text-primary pb-1 font-semibold",
             headingFont.className
           )}
         >

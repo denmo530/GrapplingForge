@@ -10,14 +10,14 @@ export default function Home() {
   return (
     <div className="flex items-center justify-center flex-col ">
       <div className="flex items-center justify-center flex-col">
-        <div className="mb-4 flex items-center border shadow-sm p-4 bg-sky-100 text-sky-700 rounded-full uppercase">
+        <div className="mb-4 flex items-center border shadow-sm p-4 bg-malibu-100 text-malibu-700 rounded-full uppercase">
           <Dumbbell className="h-6 w-6 mr-2" />
           No 1 Grappling Analytics
         </div>
         <h1 className="text-3xl md:text-6xl text-center text-neutral-800 mb-6 font-semibold">
           GrapplingForge shapes you
         </h1>
-        <div className="text-3xl md:text-6xl bg-gradient-to-r from-sky-600 to-green-600 text-white px-4 p-2 rounded-md pb-4 w-fit font-medium">
+        <div className="text-3xl md:text-6xl bg-gradient-to-r from-malibu-500 to-slate-100 text-white px-4 p-2 rounded-md pb-4 w-fit font-medium">
           Accelerate.
         </div>
       </div>
@@ -26,7 +26,7 @@ export default function Home() {
         levels. From white-belt to black-belt, with the help of data analytics
         and machine learning.
       </div>
-      <Button className="mt-6" size="lg" onClick={onOpen}>
+      <Button className="mt-6 " size="lg" onClick={onOpen}>
         Join the Forge
       </Button>
     </div>

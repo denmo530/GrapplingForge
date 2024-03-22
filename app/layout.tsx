@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import UserProvider from "@/components/providers/userProvider";
 import ModalProvider from "@/components/providers/ModalProvider";
 import { Toaster } from "@/components/ui/toaster";
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-});
+import { openSans } from "./fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -30,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={openSans.className}>
-      <body>
+    <html lang="en">
+      <body className={`${openSans.className} antialiased`}>
         <ModalProvider />
         {children}
         <Toaster />

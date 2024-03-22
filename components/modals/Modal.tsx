@@ -9,8 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogOverlay } from "@radix-ui/react-dialog";
-import { Button } from "../ui/button";
 
 interface ModalProps {
   isOpen: boolean;
@@ -29,7 +27,7 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
-      <DialogContent className=" border border-neutral-200 md:h-auto w-full md:w-[90vw] md:max-w-[450px]  rounded-md p-[25px] focus:outline-none">
+      <DialogContent className=" border border-neutral-200 md:h-auto w-full md:w-[90vw]  rounded-md p-[25px] focus:outline-none">
         <DialogHeader>
           <DialogTitle className="text-2xl text-left font-semibold mb-4">
             {title}
